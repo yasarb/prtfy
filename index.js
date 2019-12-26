@@ -36,6 +36,22 @@ const installGitHook = async () => {
   );
 }
 
+const askIfJSorTS = () => {
+  const questions = [
+    {
+      name: 'ENV',
+      type: 'list',
+      choices: ['.Typescript', '.Javascript'],
+      message: 'Please, select if this is a JavaScript or Typescript project',
+      filter: (val) => {
+        return (val === '.Typescript') ? 'ts' : 'js';
+      }
+    }
+  ];
+  
+  return inquirer.prompt(questions)
+}
+
 const main = async () => {
   // show prtfy introduction
   // install GitHook
