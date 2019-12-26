@@ -1,4 +1,4 @@
-prettierConfig = {
+const prettierConfig = {
   trailingComma: "es5",
   tabWidth: 4,
   semi: false,
@@ -9,3 +9,5 @@ prettierConfig = {
   jsxBracketSameLine: false,
   arrowParens: "avoid",
 };
+
+module.exports = prettierConfig;

@@ -1,3 +1,4 @@
+#!/usr/bin / env node
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const figlet = require('figlet');
@@ -67,7 +68,7 @@ const installPrettier = async () => {
 }
 
 const setPrettierConfig = async () => {
-  shell.ShellString(config).to(`.prettierrc.js`)
+  shell.ShellString(JSON.stringify(config, null, 4)).to(`.prettierrc.json`);
 }
 
 const success = () => {
@@ -120,7 +121,7 @@ const main = async () => {
     )
 
     // write eslintrc.js
-    await shell.ShellString(tsConfig).to(`.eslintrc.js`)
+    shell.ShellString(JSON.stringify(tsConfig, null, 4)).to(`.eslintrc.json`)
 
     // install typescript prettier config
     const tsSpinner = new Spinner('Installing Typescript prettier configs...')
