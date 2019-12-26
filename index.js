@@ -5,7 +5,7 @@ const shell = require('shelljs');
 const Spinner = require('clui').Spinner
 const clear = require('clear')
 const spawn = require('child_process').spawn
-
+const config = require('./config');
 
 const init = async () => {
   clear();
