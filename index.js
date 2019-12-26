@@ -2,6 +2,9 @@ const inquirer = require('inquirer');
 const chalk = require('chalk');
 const figlet = require('figlet');
 const shell = require('shell');
+const Spinner = require('clui').Spinner
+const clear = require('clear')
+const spawn = require('child_process').spawn
 
 prettierConfig = {
   trailingComma: "es5",
@@ -24,6 +27,18 @@ const init = async () => {
       })
     )
   );
+}
+
+const installHelper = (command, onSuccess, spinner) => {
+  return new Promise(function(resolve, reject) {
+    const process = spawn(command, { shell : true});
+    spinner.start();
+    process.on('exit', () => {
+      spinner.stop();
+      onSuccess();
+      resolve();
+    });
+  });
 }
 
 const installGitHook = async () => {
