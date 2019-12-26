@@ -26,6 +26,16 @@ const init = async () => {
   );
 }
 
+const installGitHook = async () => {
+  const spinner = new Spinner('Configuring Git Hook..');
+
+  return installHelper(
+    'npx mrm lint-staged',
+    () => console.log(chalk.green('Git hook configured 👍')),
+    spinner,
+  );
+}
+
 const main = async () => {
   // show prtfy introduction
   // install GitHook
