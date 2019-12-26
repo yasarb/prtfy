@@ -19,8 +19,8 @@ const init = async () => {
 }
 
 const installHelper = (command, onSuccess, spinner) => {
-  return new Promise(function(resolve, reject) {
-    const process = spawn(command, { shell : true});
+  return new Promise(function (resolve, reject) {
+    const process = spawn(command, { shell: true });
     spinner.start();
     process.on('exit', () => {
       spinner.stop();
@@ -52,7 +52,7 @@ const askIfJSorTS = () => {
       }
     }
   ];
-  
+
   return inquirer.prompt(questions)
 }
 
@@ -75,12 +75,63 @@ const success = () => {
 };
 
 const main = async () => {
-  // show prtfy introduction
-  // install GitHook
-  // ask questions
-  // create the files
-  // configures pre-commit hook
-  // show success message
+  init();
+  await installPrettier();
+  await setPrettierConfig();
+  await installGitHook();
+
+  const answer = await askIfJSorTS();
+  const { ENV } = answer;
+
+  if (ENV === 'js') {
+    await installPrettier();
+    await setPrettierConfig();
+
+  } else if (ENV == 'ts') {
+    const tsConfig = {
+      parser: '@typescript-eslint/parser',
+      extends: [
+        'plugin:react/recommended',
+        'plugin:@typescript-eslint/recommended',
+        'prettier/@typescript-eslint',
+        'plugin:prettier/recommended',
+      ],
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      rules: {},
+      settings: {
+        react: {
+          version: 'detect',
+        },
+      },
+    }
+
+    // install eslint plugins
+    const pluginSpinner = new Spinner('Installing plugin configs...')
+    await installHelper(
+      'npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --dev',
+      () => console.log(chalk.green('Eslint Typescript plugin installed 👍')),
+      pluginSpinner
+    )
+
+    // write eslintrc.js
+    await shell.ShellString(tsConfig).to(`.eslintrc.js`)
+
+    // install typescript prettier config
+    const tsSpinner = new Spinner('Installing Typescript prettier configs...')
+    await installHelper(
+      'npm install prettier eslint-config-prettier eslint-plugin-prettier --dev',
+      () => console.log(chalk.green('Eslint Typescript prettier configs installed 👍')),
+      tsSpinner
+    )
+  }
+
+  success();
 }
 
 main();
