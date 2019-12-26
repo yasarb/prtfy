@@ -56,6 +56,24 @@ const askIfJSorTS = () => {
   return inquirer.prompt(questions)
 }
 
+const installPrettier = async () => {
+  const spinner = new Spinner('Installing Prettier...');
+
+  return installHelper(
+    'yarn add -D prettier',
+    () => console.log(chalk.green('Prettier has been installed! 👍')),
+    spinner
+  );
+}
+
+const setPrettierConfig = async () => {
+  shell.ShellString(config).to(`.prettierrc.js`)
+}
+
+const success = () => {
+  console.log(chalk.blue.bold(`Prettier Config completed`))
+};
+
 const main = async () => {
   // show prtfy introduction
   // install GitHook
