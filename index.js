@@ -6,17 +6,6 @@ const Spinner = require('clui').Spinner
 const clear = require('clear')
 const spawn = require('child_process').spawn
 
-prettierConfig = {
-  trailingComma: "es5",
-  tabWidth: 4,
-  semi: false,
-  singleQuote: true,
-  useTabs: false,
-  printWidth: 100,
-  bracketSpacing: true,
-  jsxBracketSameLine: false,
-  arrowParens: "avoid",
-};
 
 const init = async () => {
   clear();
